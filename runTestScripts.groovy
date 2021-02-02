@@ -20,7 +20,7 @@ def main() {
                         doGenerateSubmoduleConfigurations: false, 
                         extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: '']], 
                         submoduleCfg: [], 
-                        userRemoteConfigs: [[url: 'https://github.com/edgexfoundry/edgex-taf.git']]
+                        userRemoteConfigs: [[url: 'https://github.com/jinlinGuan/edgex-taf.git']]
                         ])
                 }
 
@@ -75,31 +75,11 @@ def main() {
                             -e COMPOSE_IMAGE=${COMPOSE_IMAGE} -e SECURITY_SERVICE_NEEDED=${SECURITY_SERVICE_NEEDED} \
                             -e ARCH=${ARCH} --security-opt label:disable \
                             -v /var/run/docker.sock:/var/run/docker.sock ${TAF_COMMOM_IMAGE} \
-                            --exclude Skipped --include v2-api -u functionalTest/V2-API/app-service -p default"
+                            --exclude Skipped --include testing -u functionalTest/V2-API -p default"
 
                     dir ('TAF/testArtifacts/reports/rename-report') {
-                        sh "cp ../edgex/log.html v2-api-appservice-log.html"
-                        sh "cp ../edgex/report.xml v2-api-appservice-report.xml"
-                    }
-                    sh "docker run --rm --network host -v ${env.WORKSPACE}:${env.WORKSPACE}:rw,z -w ${env.WORKSPACE} \
-                            -e COMPOSE_IMAGE=${COMPOSE_IMAGE} -e SECURITY_SERVICE_NEEDED=${SECURITY_SERVICE_NEEDED} \
-                            -e ARCH=${ARCH} --security-opt label:disable \
-                            -v /var/run/docker.sock:/var/run/docker.sock ${TAF_COMMOM_IMAGE} \
-                            --exclude Skipped --include v2-api -u functionalTest/V2-API/core-data -p default"
-
-                    dir ('TAF/testArtifacts/reports/rename-report') {
-                        sh "cp ../edgex/log.html v2-api-coredata-log.html"
-                        sh "cp ../edgex/report.xml v2-api-coredata-report.xml"
-                    }
-                    sh "docker run --rm --network host -v ${env.WORKSPACE}:${env.WORKSPACE}:rw,z -w ${env.WORKSPACE} \
-                            -e COMPOSE_IMAGE=${COMPOSE_IMAGE} -e SECURITY_SERVICE_NEEDED=${SECURITY_SERVICE_NEEDED} \
-                            -e ARCH=${ARCH} --security-opt label:disable \
-                            -v /var/run/docker.sock:/var/run/docker.sock ${TAF_COMMOM_IMAGE} \
-                            --exclude Skipped --include v2-api -u functionalTest/V2-API/core-metadata -p default"
-
-                    dir ('TAF/testArtifacts/reports/rename-report') {
-                        sh "cp ../edgex/log.html v2-api-coremetadata-log.html"
-                        sh "cp ../edgex/report.xml v2-api-coremetadata-report.xml"
+                        sh "cp ../edgex/log.html v2-api-log.html"
+                        sh "cp ../edgex/report.xml v2-api-report.xml"
                     }
                 }
                 stage ("Stash Report - ${ARCH}${USE_DB}${USE_SECURITY}${BRANCH}") {
